@@ -6,3 +6,12 @@
  * HINT:
  * This can be solved with a self join on the film_actor table.
  */
+
+select title from film 
+join film_actor using (film_id) 
+where actor_id in (
+    select actor_id from actor 
+    join film_actor using (actor_id)
+    join film using (film_id)
+    where title = 'AMERICAN CIRCUS')
+order by title;

@@ -12,3 +12,28 @@
  * There are many ways to solve this problem,
  * but I personally found the INTERSECT operator to make a convenient solution.
  */
+
+select title from film
+join film_actor using (film_id)
+where actor_id in (
+    select actor_id from actor
+    join film_actor using (actor_id)
+    join film using (film_id)
+    where title = 'AMERICAN CIRCUS')
+intersect
+select title from film
+join film_actor using (film_id)
+where actor_id in (
+    select actor_id from actor
+    join film_actor using (actor_id)
+    join film using (film_id)
+    where title = 'AGENT TRUMAN')
+intersect
+select title from film
+join film_actor using (film_id)
+where actor_id in (
+    select actor_id from actor
+    join film_actor using (actor_id)
+    join film using (film_id)
+    where title = 'ACADEMY DINOSAUR')
+order by title;

@@ -18,3 +18,14 @@
  * ```
  * This problem should be solved by a self join on the "film_category" table.
  */
+
+select title from film 
+join film_category using (film_id) 
+where category_id in (
+    select category_id from category 
+    join film_category using (category_id)
+    join film using (film_id)
+    where title = 'AMERICAN CIRCUS')
+group by film_id, title
+having count(distinct category_id) >=2 
+order by title;
