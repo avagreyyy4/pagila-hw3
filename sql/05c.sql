@@ -6,12 +6,11 @@
  * (The actors do not necessarily have to all be in the same movie, and you do not necessarily need one actor from each movie.)
  */
 
-select title from film
-join film_actor using (film_id)
-where actor_id in (
-    select actor_id from actor
-    join film_actor using (actor_id)
-    join film using (film_id)
-    where title IN ('AMERICAN CIRCUS', 'AGENT TRUMAN', 'ACADEMY DINOSAUR'))
-group by film_id, title
-having count(actor_id) >=3;
+select f1.title from film f1
+    join film_actor fa on (f1.film_id = fa.film_id)
+    join film_actor fa2 on (fa.actor_id = fa2.actor_id)
+    join film f2 on fa2.film_id = f2.film_id
+where f2.title in ('AMERICAN CIRCUS', 'AGENT TRUMAN', 'ACADEMY DINOSAUR')
+group by f1.film_id, f1.title
+having count(fa2.actor_id) >=3
+order by f1.title;
