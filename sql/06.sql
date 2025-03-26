@@ -17,4 +17,5 @@ where film_actor.film_id in (
    and a.last_name = 'BACALL' 
 )
 
-and not (actor.first_name = 'RUSSELL' and actor.last_name = 'BACALL');
+and not (actor.first_name = 'RUSSELL' and actor.last_name = 'BACALL')
+order by "Actor Name";
