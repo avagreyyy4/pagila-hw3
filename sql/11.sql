@@ -11,3 +11,29 @@
  * All of the subsequent problems in this homework can be solved with LATERAL JOINs
  * (or slightly less conveniently with subqueries).
  */
+
+WITH ranked_rentals AS (
+    SELECT
+        c.customer_id,
+        c.first_name,
+        c.last_name,
+        f.title AS title,
+        r.rental_date,
+        ROW_NUMBER() OVER (
+            PARTITION BY c.customer_id
+            ORDER BY r.rental_date DESC
+        ) AS rank
+    FROM customer c
+    JOIN rental r ON c.customer_id = r.customer_id
+    JOIN inventory i ON r.inventory_id = i.inventory_id
+    JOIN film f ON i.film_id = f.film_id
+)
+SELECT 
+    first_name,
+    last_name,
+    title,
+    rental_date
+FROM ranked_rentals
+WHERE rank = 1
+ORDER BY last_name;
+
